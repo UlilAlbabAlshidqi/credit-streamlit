@@ -1,0 +1,418 @@
+{
+  "project": {
+    "name": "Prediksi Default Pembayaran Kartu Kredit",
+    "description": "Model klasifikasi untuk memprediksi kemungkinan nasabah mengalami default pembayaran pada bulan berikutnya berdasarkan informasi kredit, demografi, tagihan, dan riwayat pembayaran.",
+    "task": "binary_classification"
+  },
+  "input_user": {
+    "numerik": [
+      "LIMIT_BAL",
+      "AGE",
+      "BILL_AMT1",
+      "BILL_AMT3",
+      "BILL_AMT4",
+      "BILL_AMT6",
+      "PAY_AMT1",
+      "PAY_AMT2",
+      "PAY_AMT3",
+      "PAY_AMT4",
+      "PAY_AMT5",
+      "PAY_AMT6",
+      "BILL_AMT2",
+      "BILL_AMT5"
+    ],
+    "kategorikal": [
+      "PAY_0",
+      "PAY_2",
+      "PAY_3",
+      "PAY_4",
+      "PAY_5",
+      "PAY_6",
+      "SEX",
+      "EDUCATION",
+      "MARRIAGE"
+    ]
+  },
+  "rentang_numerik": {
+    "LIMIT_BAL": {
+      "min": 10000.0,
+      "max": 1000000.0
+    },
+    "AGE": {
+      "min": 21.0,
+      "max": 79.0
+    },
+    "BILL_AMT1": {
+      "min": -165580.0,
+      "max": 964511.0
+    },
+    "BILL_AMT3": {
+      "min": -157264.0,
+      "max": 1664089.0
+    },
+    "BILL_AMT4": {
+      "min": -170000.0,
+      "max": 891586.0
+    },
+    "BILL_AMT6": {
+      "min": -339603.0,
+      "max": 961664.0
+    },
+    "PAY_AMT1": {
+      "min": 0.0,
+      "max": 873552.0
+    },
+    "PAY_AMT2": {
+      "min": 0.0,
+      "max": 1684259.0
+    },
+    "PAY_AMT3": {
+      "min": 0.0,
+      "max": 896040.0
+    },
+    "PAY_AMT4": {
+      "min": 0.0,
+      "max": 621000.0
+    },
+    "PAY_AMT5": {
+      "min": 0.0,
+      "max": 426529.0
+    },
+    "PAY_AMT6": {
+      "min": 0.0,
+      "max": 528666.0
+    },
+    "BILL_AMT2": {
+      "min": -69777.0,
+      "max": 983931.0
+    },
+    "BILL_AMT5": {
+      "min": -81334.0,
+      "max": 927171.0
+    }
+  },
+  "pilihan_kategori": {
+    "PAY_0": [
+      -2.0,
+      -1.0,
+      0.0,
+      1.0,
+      2.0,
+      3.0
+    ],
+    "PAY_2": [
+      -2.0,
+      -1.0,
+      0.0,
+      2.0,
+      3.0
+    ],
+    "PAY_3": [
+      -2.0,
+      -1.0,
+      0.0,
+      2.0,
+      3.0
+    ],
+    "PAY_4": [
+      -2.0,
+      -1.0,
+      0.0,
+      2.0,
+      3.0
+    ],
+    "PAY_5": [
+      -2.0,
+      -1.0,
+      0.0,
+      2.0,
+      3.0
+    ],
+    "PAY_6": [
+      -2.0,
+      -1.0,
+      0.0,
+      2.0,
+      3.0
+    ],
+    "SEX": [
+      1.0,
+      2.0
+    ],
+    "EDUCATION": [
+      1.0,
+      2.0,
+      3.0,
+      4.0
+    ],
+    "MARRIAGE": [
+      0.0,
+      1.0,
+      2.0,
+      3.0
+    ]
+  },
+  "target": {
+    "nama": "default.payment.next.month",
+    "tipe": "binary",
+    "kelas": {
+      "0": "Tidak default",
+      "1": "Default"
+    },
+    "positive_class": 1,
+    "keterangan": "Target bernilai 1 jika nasabah mengalami default pembayaran bulan berikutnya, dan 0 jika tidak."
+  },
+  "feature_engineering": {
+    "EDUCATION": {
+      "aturan": {
+        "0": 4,
+        "5": 4,
+        "6": 4
+      },
+      "keterangan": "Kategori pendidikan 0, 5, dan 6 digabungkan ke kategori 4."
+    },
+    "PAY_0_PAY_2_PAY_3_PAY_4_PAY_5_PAY_6": {
+      "kolom": [
+        "PAY_0",
+        "PAY_2",
+        "PAY_3",
+        "PAY_4",
+        "PAY_5",
+        "PAY_6"
+      ],
+      "aturan": {
+        "4": 3,
+        "5": 3,
+        "6": 3,
+        "7": 3,
+        "8": 3
+      },
+      "aturan_tambahan": {
+        "kolom": [
+          "PAY_2",
+          "PAY_3",
+          "PAY_4"
+        ],
+        "kategori_digabung": {
+          "1": 2
+        }
+      },
+      "keterangan": "Kategori status pembayaran 4 sampai 8 digabung ke kategori 3. Pada PAY_2, PAY_3, dan PAY_4, kategori 1 juga digabung ke kategori 2."
+    }
+  },
+  "fitur_model": [
+    "LIMIT_BAL",
+    "SEX",
+    "EDUCATION",
+    "MARRIAGE",
+    "AGE",
+    "PAY_0",
+    "PAY_2",
+    "PAY_3",
+    "PAY_4",
+    "PAY_5",
+    "PAY_6",
+    "BILL_AMT1",
+    "BILL_AMT2",
+    "BILL_AMT3",
+    "BILL_AMT4",
+    "BILL_AMT5",
+    "BILL_AMT6",
+    "PAY_AMT1",
+    "PAY_AMT2",
+    "PAY_AMT3",
+    "PAY_AMT4",
+    "PAY_AMT5",
+    "PAY_AMT6"
+  ],
+  "fitur_dihapus": {
+    "Unnamed: 0": "Kolom indeks dari file CSV, bukan fitur prediktif.",
+    "default.payment.next.month": "Variabel target, dipisahkan dari X."
+  },
+  "preprocessing": {
+    "numeric_standard": {
+      "kolom": [
+        "LIMIT_BAL",
+        "AGE",
+        "BILL_AMT1",
+        "BILL_AMT3",
+        "BILL_AMT4",
+        "BILL_AMT6"
+      ],
+      "imputer": "SimpleImputer(strategy=median)",
+      "scaler": "StandardScaler"
+    },
+    "numeric_log": {
+      "kolom": [
+        "PAY_AMT1",
+        "PAY_AMT2",
+        "PAY_AMT3",
+        "PAY_AMT4",
+        "PAY_AMT5",
+        "PAY_AMT6"
+      ],
+      "imputer": "SimpleImputer(strategy=median)",
+      "transformasi": "np.log1p",
+      "scaler": "RobustScaler"
+    },
+    "numeric_yeo_johnson": {
+      "kolom": [
+        "BILL_AMT2",
+        "BILL_AMT5"
+      ],
+      "imputer": "SimpleImputer(strategy=median)",
+      "transformasi": "PowerTransformer(method=yeo-johnson)",
+      "standardize": false,
+      "scaler": "RobustScaler"
+    },
+    "kategorikal_ordinal": {
+      "kolom": [
+        "PAY_0",
+        "PAY_2",
+        "PAY_3",
+        "PAY_4",
+        "PAY_5",
+        "PAY_6"
+      ],
+      "konversi": "String",
+      "imputer": {
+        "strategy": "constant",
+        "fill_value": "KOSONG"
+      },
+      "encoder": "OneHotEncoder",
+      "handle_unknown": "ignore",
+      "sparse_output": false
+    },
+    "kategorikal_nominal": {
+      "kolom": [
+        "SEX",
+        "EDUCATION",
+        "MARRIAGE"
+      ],
+      "konversi": "String",
+      "imputer": {
+        "strategy": "constant",
+        "fill_value": "KOSONG"
+      },
+      "encoder": "OneHotEncoder",
+      "handle_unknown": "ignore",
+      "sparse_output": false
+    },
+    "keterangan": "Seluruh preprocessing berada dalam ColumnTransformer di pipeline model dan di-fit pada data training masing-masing fold."
+  },
+  "model": {
+    "name": "CatBoost",
+    "type": "CatBoostClassifier",
+    "class_imbalance_handling": "auto_class_weights=Balanced",
+    "selection_metric": "average_precision",
+    "best_params": {
+      "random_strength": 0.5,
+      "learning_rate": 0.01,
+      "l2_leaf_reg": 7,
+      "iterations": 1000,
+      "depth": 9,
+      "border_count": 32
+    },
+    "best_cv_pr_auc": 0.5405156992669589,
+    "cv": {
+      "method": "StratifiedKFold",
+      "n_splits": 5,
+      "shuffle": true,
+      "random_state": 42
+    },
+    "tuning": {
+      "method": "RandomizedSearchCV",
+      "n_iter": 30,
+      "random_state": 42
+    },
+    "tuned": {
+      "training_data": "80% (X_train, y_train)",
+      "file": "model_tuned.joblib",
+      "purpose": "Model untuk evaluasi pada test set yang dipisahkan sebelum cross-validation dan tuning."
+    },
+    "final": {
+      "training_data": "100% data (X, y)",
+      "file": "model_final.joblib",
+      "purpose": "Model untuk inference atau deployment setelah eksperimen selesai."
+    },
+    "versions": {
+      "scikit_learn": "1.6.1",
+      "catboost": "1.2.10",
+      "numpy": "2.1.3"
+    }
+  },
+  "evaluasi_test": {
+    "model": "model_tuned",
+    "test_size": 0.2,
+    "split_random_state": 42,
+    "threshold": 0.5,
+    "metrics": {
+      "accuracy": 0.7731666666666667,
+      "precision": 0.48946716232961585,
+      "recall": 0.5953278070836473,
+      "f1_score": 0.5372322339340361,
+      "roc_auc": 0.7736868357095089,
+      "pr_auc_average_precision": 0.5490998370889135
+    },
+    "confusion_matrix": {
+      "labels": [
+        "Tidak Default",
+        "Default"
+      ],
+      "matrix": [
+        [
+          3849,
+          824
+        ],
+        [
+          537,
+          790
+        ]
+      ],
+      "format": [
+        [
+          "True Negative",
+          "False Positive"
+        ],
+        [
+          "False Negative",
+          "True Positive"
+        ]
+      ]
+    },
+    "classification_report": {
+      "Tidak Default": {
+        "precision": 0.8775649794801642,
+        "recall": 0.8236678793066553,
+        "f1-score": 0.8497626669610332,
+        "support": 4673.0
+      },
+      "Default": {
+        "precision": 0.48946716232961585,
+        "recall": 0.5953278070836473,
+        "f1-score": 0.5372322339340361,
+        "support": 1327.0
+      },
+      "accuracy": 0.7731666666666667,
+      "macro avg": {
+        "precision": 0.68351607090489,
+        "recall": 0.7094978431951513,
+        "f1-score": 0.6934974504475346,
+        "support": 6000.0
+      },
+      "weighted avg": {
+        "precision": 0.7917306789203679,
+        "recall": 0.7731666666666667,
+        "f1-score": 0.7806413528565623,
+        "support": 6000.0
+      }
+    }
+  },
+  "asumsi_dan_keterbatasan": [
+    "Prediksi merupakan estimasi klasifikasi, bukan kepastian bahwa nasabah akan mengalami default.",
+    "Nilai probabilitas model bukan otomatis probabilitas risiko yang terkalibrasi secara sempurna.",
+    "Threshold 0.5 digunakan untuk menentukan kelas prediksi pada evaluasi di atas; threshold lain dapat mengubah precision, recall, dan F1-score.",
+    "Penggabungan kategori EDUCATION dan PAY mengikuti aturan feature engineering yang diterapkan saat training.",
+    "model_final dilatih menggunakan seluruh data, sehingga evaluasi test di atas tidak boleh dianggap sebagai evaluasi independen untuk model_final."
+  ]
+}
