@@ -1,3 +1,5 @@
+# Aplikasi prediksi risiko gagal bayar kartu kredit
+
 """Aplikasi Streamlit: cek risiko gagal bayar kartu kredit (untuk pengguna awam).
 
 Catatan penting soal konsistensi dengan training:
